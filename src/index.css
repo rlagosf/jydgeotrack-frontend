@@ -1,0 +1,38 @@
+/* ========================================================= */
+/*  Tailwind core                                             */
+/* ========================================================= */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================================= */
+/*  Fuente personalizada: Toxigenesis                         */
+/* ========================================================= */
+@font-face {
+  font-family: "Toxigenesis";
+  src: url("./assets/fonts/toxigenesis_bd.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ========================================================= */
+/*  Estilos globales                                          */
+/* ========================================================= */
+
+/* Aplicar la fuente global desde la raíz */
+html {
+  font-family: "Toxigenesis", sans-serif;
+}
+
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fix: prevenir scroll horizontal accidental */
+html, body {
+  overflow-x: hidden;
+}
