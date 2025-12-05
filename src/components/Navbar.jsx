@@ -8,22 +8,23 @@ export default function Navbar() {
     { to: "hero", label: "Inicio" },
     { to: "services", label: "Servicios" },
     { to: "about", label: "Nosotros" },
+    { to: "contact", label: "Contacto" },
+    { to: "login", label: "Iniciar sesión" },
   ];
 
   return (
     <nav
       className="
         fixed top-0 left-0 w-full z-50
-        bg-gradient-to-b from-black/40 via-black/20 to-transparent
-        backdrop-blur-xl
-        border-b border-white/10
+        bg-none
         text-white
       "
     >
-      <div className="max-w-[1400px] mx-auto px-1 lg:px-1">
+      <div className="max-w-[1400px] mx-auto px-3 lg:px-1">
         <div className="flex items-center justify-between h-16 lg:h-20">
+
           {/* Logo */}
-          <div className="flex items-center">
+          <div className="flex items-center pl-1 md:pl-0">
             <img
               src="/images/logo_fondos_oscuros.png"
               alt="JYD Geotrack"
@@ -34,7 +35,8 @@ export default function Navbar() {
           {/* Hamburguesa */}
           <button
             className="
-              md:hidden inline-flex items-center justify-center p-2 
+              md:hidden inline-flex items-center justify-center 
+              p-2 mr-2 
               rounded-md hover:bg-white/10 focus:outline-none 
               focus:ring-2 focus:ring-white/40
             "
@@ -64,9 +66,9 @@ export default function Navbar() {
           <ul
             className="
               hidden md:flex items-center
-              gap-5 lg:gap-8
-              text-[0.55rem] lg:text-[0.64rem]
-              uppercase tracking-[0.18em]
+              gap-5 lg:gap-7
+              text-[0.55rem] lg:text-[0.62rem]
+              uppercase tracking-[0.20em]
               font-light
             "
           >
@@ -78,11 +80,8 @@ export default function Navbar() {
                   duration={500}
                   offset={-80}
                   spy={true}
-                  activeClass="text-[#24C6FF]"
                   className="
-                    cursor-pointer
-                    text-white/80
-                    transition-all duration-300 
+                    cursor-pointer transition-all duration-300 
                     pb-1 border-b border-transparent
                     hover:border-[#24C6FF]
                     hover:text-[#24C6FF]
@@ -93,33 +92,6 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
-
-            {/* CTA */}
-            <li>
-              <Link
-                to="contact"
-                smooth={true}
-                duration={500}
-                offset={-80}
-                spy={true}
-                className="
-                  cursor-pointer
-                  rounded-full border border-white/30
-                  px-4 py-1.5
-                  text-[0.55rem] lg:text-[0.64rem]
-                  uppercase tracking-[0.20em]
-                  font-light
-                  text-white/90
-                  shadow-sm
-                  transition-all duration-300
-                  hover:bg-white/20 hover:border-white/80
-                  hover:text-white
-                  hover:drop-shadow-[0_0_6px_white]
-                "
-              >
-                Contacto
-              </Link>
-            </li>
           </ul>
         </div>
       </div>
@@ -127,7 +99,7 @@ export default function Navbar() {
       {/* Menú móvil */}
       {isOpen && (
         <div className="md:hidden bg-[#001624]/95 border-t border-white/10">
-          <ul className="flex flex-col px-6 py-4 space-y-3 text-[0.65rem] uppercase tracking-[0.18em] font-light">
+          <ul className="flex flex-col px-6 py-4 space-y-3 text-[0.65rem] uppercase tracking-[0.2em] font-light">
             {navItems.map((item) => (
               <li key={item.to}>
                 <Link
@@ -136,40 +108,13 @@ export default function Navbar() {
                   duration={500}
                   offset={-80}
                   spy={true}
-                  className="
-                    block py-2 cursor-pointer
-                    text-white/85
-                    hover:text-[#24C6FF]
-                    transition-all
-                  "
+                  className="block py-2 cursor-pointer hover:text-[#24C6FF] transition-all"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
-
-            <li>
-              <Link
-                to="contact"
-                smooth={true}
-                duration={500}
-                offset={-80}
-                spy={true}
-                className="
-                  mt-2 block text-center
-                  rounded-full border border-white/40
-                  px-4 py-2
-                  text-[0.65rem]
-                  hover:bg-white/15 hover:border-white/80
-                  hover:text-white
-                  cursor-pointer transition-all
-                "
-                onClick={() => setIsOpen(false)}
-              >
-                Contacto
-              </Link>
-            </li>
           </ul>
         </div>
       )}

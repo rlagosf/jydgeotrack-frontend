@@ -7,9 +7,22 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        toxigenesis: ["Toxigenesis", "sans-serif"],
+        // Fuente corporativa JD: system-ui + stack seria y moderna
+        jd: [
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "\"Segoe UI\"",
+          "Roboto",
+          "sans-serif",
+        ],
+      },
+      letterSpacing: {
+        tightish: "-0.01em",
+        wideish: "0.16em",
       },
     },
   },
   plugins: [],
 };
+

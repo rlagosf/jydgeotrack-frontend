@@ -1,38 +1,31 @@
-/* ========================================================= */
-/*  Tailwind core                                             */
-/* ========================================================= */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ========================================================= */
-/*  Fuente personalizada: Toxigenesis                         */
-/* ========================================================= */
-@font-face {
-  font-family: "Toxigenesis";
-  src: url("./assets/fonts/toxigenesis_bd.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+/* ===================== */
+/* Estilos tipográficos JD */
+/* ===================== */
+@layer base {
+  /* Fuente global en TODO el sitio */
+  html {
+    @apply font-jd antialiased;
+    font-size: 16px;
+  }
 
-/* ========================================================= */
-/*  Estilos globales                                          */
-/* ========================================================= */
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
 
-/* Aplicar la fuente global desde la raíz */
-html {
-  font-family: "Toxigenesis", sans-serif;
-}
+  /* Titulares con un poco más de presencia */
+  h1, h2, h3, h4 {
+    @apply tracking-tightish font-semibold;
+  }
 
-body,
-#root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-/* Fix: prevenir scroll horizontal accidental */
-html, body {
-  overflow-x: hidden;
+  /* “Eyebrow text” (usado en hero: MONITOREO GPS VEHICULAR, etc.) */
+  .eyebrow {
+    @apply text-[0.7rem] uppercase tracking-wideish font-light;
+  }
 }
