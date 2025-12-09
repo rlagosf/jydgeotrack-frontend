@@ -2,47 +2,18 @@ import { useEffect, useState } from "react";
 
 // Cada slide con mensaje
 const SLIDES = [
-  {
-    src: "images/1.png",
-    title: "Monitoreo preciso para tu flota",
-    subtitle: "Visualiza recorridos y tiempo en ruta con un solo vistazo.",
-  },
-  {
-    src: "images/2.png",
-    title: "Seguridad para vehículos particulares",
-    subtitle: "Recibe alertas ante movimientos no autorizados.",
-  },
-  {
-    src: "images/3.png",
-    title: "Control centralizado",
-    subtitle: "Administra todos tus vehículos desde una sola plataforma.",
-  },
-  {
-    src: "images/4.png",
-    title: "Reportes claros y accionables",
-    subtitle: "Toma decisiones con datos, no con suposiciones.",
-  },
-  {
-    src: "images/5.png",
-    title: "Cobertura nacional",
-    subtitle: "Instalaciones profesionales y soporte cercano.",
-  },
-  {
-    src: "images/6.png",
-    title: "Tecnología confiable",
-    subtitle: "Equipos GPS robustos, pensados para trabajo diario.",
-  },
-  {
-    src: "images/7.png",
-    title: "Tu flota, bajo control",
-    subtitle: "Reduce riesgos y mejora la gestión operacional.",
-  },
+  { src: "images/1.png", title: "Monitoreo preciso para tu flota", subtitle: "Visualiza recorridos y tiempo en ruta con un solo vistazo." },
+  { src: "images/2.png", title: "Seguridad para vehículos particulares", subtitle: "Recibe alertas ante movimientos no autorizados." },
+  { src: "images/3.png", title: "Control centralizado", subtitle: "Administra todos tus vehículos desde una sola plataforma." },
+  { src: "images/4.png", title: "Reportes claros y accionables", subtitle: "Toma decisiones con datos, no con suposiciones." },
+  { src: "images/5.png", title: "Cobertura nacional", subtitle: "Instalaciones profesionales y soporte cercano." },
+  { src: "images/6.png", title: "Tecnología confiable", subtitle: "Equipos GPS robustos, pensados para trabajo diario." },
+  { src: "images/7.png", title: "Tu flota, bajo control", subtitle: "Reduce riesgos y mejora la gestión operacional." },
 ];
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
 
-  // Auto-rotación del carrusel
   useEffect(() => {
     const id = setInterval(() => {
       setCurrent((prev) => (prev + 1) % SLIDES.length);
@@ -53,15 +24,16 @@ export default function Hero() {
   const active = SLIDES[current];
 
   return (
-    <section
-      id="hero"
-      className="
-        pt-24 md:pt-28
-        w-full
-        px-4 lg:px-8
-      "
-    >
-      <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-10 items-center">
+    <section id="hero" className="pt-24 md:pt-28 w-full px-6 lg:px-12 mb-20">
+      <div
+        className="
+          max-w-[1500px]
+          mx-auto
+          grid lg:grid-cols-2
+          gap-14
+          items-center
+        "
+      >
         {/* Columna de texto */}
         <div className="space-y-5">
           <p className="text-[0.70rem] lg:text-xs tracking-[0.25em] uppercase text-white/70">
@@ -73,11 +45,9 @@ export default function Hero() {
             <span className="text-[#24C6FF]">vehículos en tiempo real</span>
           </h1>
 
-          <p className="text-xs sm:text-sm lg:text-base text-white/80 max-w-lg">
-            JyD Geotrack instala y configura sistemas GPS vehiculares para
-            flotas y vehículos particulares. Visualiza recorridos, alertas y
-            reportes en una plataforma moderna, segura y pensada para la gestión
-            profesional de tu movilidad.
+          <p className="text-xs sm:text-sm lg:text-base text-white/80 max-w-lg text-justify">
+            JyD Geotrack instala y configura sistemas GPS vehiculares para flotas y vehículos particulares.
+            Visualiza recorridos, alertas y reportes en una plataforma moderna, segura y pensada para la gestión operativa.
           </p>
 
           {/* Botones */}
@@ -92,7 +62,7 @@ export default function Hero() {
                 tracking-[0.18em]
                 uppercase font-light
                 shadow-[0_0_18px_rgba(36,198,255,0.45)]
-                hover:bg-white hover:shadow-[0_0_22px_rgba(255,255,255,0.65)]
+                hover:bg-white
                 transition-all duration-300
               "
             >
@@ -117,14 +87,15 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* CARRUSEL cuadrado para 1080x1080 */}
+        {/* Carrusel */}
         <div className="relative flex flex-col items-center lg:items-end">
           <div
             className="
               relative
               w-full
-              max-w-[560px] sm:max-w-[600px] lg:max-w-[640px]
+              max-w-[600px]
               aspect-square
+              mx-auto lg:mx-0
               rounded-[2.2rem]
               overflow-hidden
               border border-white/10
@@ -147,25 +118,12 @@ export default function Hero() {
               />
             ))}
 
-            {/* Overlay suave para texto */}
+            {/* Overlay suave */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60 pointer-events-none" />
 
-            {/* Texto dentro del carrusel, más pequeño */}
-            <div
-              className="
-                absolute left-4 bottom-4 sm:left-5 sm:bottom-5
-                max-w-[78%]
-              "
-            >
-              <div
-                className="
-                  inline-block
-                  bg-black/55
-                  backdrop-blur-sm
-                  rounded-xl
-                  px-3 sm:px-4 py-1.5 sm:py-2
-                "
-              >
+            {/* Texto sobre la imagen */}
+            <div className="absolute left-4 bottom-4 sm:left-5 sm:bottom-5 max-w-[78%]">
+              <div className="bg-black/55 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 inline-block">
                 <h2 className="text-[0.72rem] sm:text-[0.80rem] lg:text-sm font-semibold text-white">
                   {active.title}
                 </h2>
@@ -176,10 +134,12 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Enunciado bajo el carrusel */}
-          <p className="mt-3 text-[0.70rem] sm:text-[0.75rem] text-white/70 text-right w-full">
-            Imágenes referenciales.
-          </p>
+          {/* Enunciado bajo el carrusel, centrado respecto al carrusel */}
+          <div className="mt-4 w-full max-w-[600px] mx-auto lg:mx-0">
+            <p className="text-[0.70rem] sm:text-[0.75rem] text-white/70 text-center">
+              Imágenes referenciales.
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -7,7 +7,7 @@ export default function Services() {
       className="
         w-full
         px-4 lg:px-8
-        pt-16 pb-20
+        pt-28 pb-20 mb-24
       "
     >
       <div className="max-w-[1400px] mx-auto">

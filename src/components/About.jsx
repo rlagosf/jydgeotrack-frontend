@@ -7,6 +7,7 @@ const About = () => {
         px-4 lg:px-8
         py-20
         flex justify-center
+        pt-20
       "
     >
       <div
@@ -33,7 +34,7 @@ const About = () => {
           />
 
           <img
-            src="/images/logo_fondos_oscuros.png"
+            src="/images/logo_negro.png"
             alt="JD GeoTrack"
             className="
               relative
@@ -70,6 +71,7 @@ const About = () => {
               text-sm sm:text-base
               leading-relaxed
               max-w-lg
+              text-justify
             "
           >
             En <span className="text-white">JD GeoTrack</span> combinamos 
@@ -84,6 +86,7 @@ const About = () => {
               text-white/60
               text-xs sm:text-sm
               leading-relaxed
+              text-justify
             "
           >
             Más que rastreo: una plataforma diseñada para decisiones inteligentes.
