@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-scroll";
 
 // Cada slide con mensaje
 const SLIDES = [
@@ -46,14 +47,20 @@ export default function Hero() {
           </h1>
 
           <p className="text-xs sm:text-sm lg:text-base text-white/80 max-w-lg text-justify">
-            JyD Geotrack instala y configura sistemas GPS vehiculares para flotas y vehículos particulares.
+            JD Geotrack instala y configura sistemas GPS vehiculares para flotas y vehículos particulares.
             Visualiza recorridos, alertas y reportes en una plataforma moderna, segura y pensada para la gestión operativa.
           </p>
 
           {/* Botones */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
-            <button
+            {/* Botón: ir al formulario de contacto */}
+            <Link
+              to="contact"
+              smooth={true}
+              duration={500}
+              offset={-80} // compensa el navbar fijo
               className="
+                inline-flex items-center justify-center
                 px-5 sm:px-6 py-2.5
                 rounded-full
                 bg-[#24C6FF]
@@ -64,13 +71,20 @@ export default function Hero() {
                 shadow-[0_0_18px_rgba(36,198,255,0.45)]
                 hover:bg-white
                 transition-all duration-300
+                cursor-pointer
               "
             >
               Solicitar cotización
-            </button>
+            </Link>
 
-            <button
+            {/* Botón: ir a servicios */}
+            <Link
+              to="services"
+              smooth={true}
+              duration={500}
+              offset={-80}
               className="
+                inline-flex items-center justify-center
                 px-5 sm:px-6 py-2.5
                 rounded-full
                 border border-white/40
@@ -80,10 +94,11 @@ export default function Hero() {
                 text-white
                 hover:bg-white/10 hover:border-white/80
                 transition-all duration-300
+                cursor-pointer
               "
             >
               Ver servicios
-            </button>
+            </Link>
           </div>
         </div>
 
