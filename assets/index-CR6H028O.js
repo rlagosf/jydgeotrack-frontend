@@ -75,7 +75,7 @@ Please change the parent <Route path="${G}"> to <Route path="${G==="/"?"*":`${G}
         text-white
         transition-colors duration-300
         ${c?"bg-black/90 backdrop-blur-sm border-b border-slate-800/80":"bg-transparent"}
-      `,children:[H.jsx("div",{className:"max-w-[1550px] mx-auto px-4 lg:px-6",children:H.jsxs("div",{className:"flex items-center justify-between h-16 lg:h-20",children:[H.jsxs("div",{className:"flex items-center gap-4",children:[H.jsx("img",{src:"/images/logo_fondos_oscuros.png",alt:"JYD Geotrack",className:"h-8 lg:h-10 w-auto select-none"}),H.jsxs("div",{className:"hidden sm:flex items-center gap-3",children:[H.jsx("a",{href:"https://www.facebook.com/jd.geotrack",target:"_blank",rel:"noreferrer",className:b,children:H.jsx(iy,{})}),H.jsx("a",{href:"https://www.instagram.com/jdgeotrack",target:"_blank",rel:"noreferrer",className:b,children:H.jsx(oy,{})}),H.jsx("a",{href:"https://wa.me/56954025867",target:"_blank",rel:"noreferrer",className:b,children:H.jsx(fy,{})}),H.jsx("a",{href:"https://www.linkedin.com/in/rodrigo-lagos-fernandez-403a33173/",target:"_blank",rel:"noreferrer",className:b,children:H.jsx(cy,{})})]})]}),H.jsx("ul",{className:`\r
+      `,children:[H.jsx("div",{className:"max-w-[1550px] mx-auto px-4 lg:px-6",children:H.jsxs("div",{className:"flex items-center justify-between h-16 lg:h-20",children:[H.jsxs("div",{className:"flex items-center gap-4",children:[H.jsx("img",{src:"images/logo_fondos_oscuros.png",alt:"JYD Geotrack",className:"h-8 lg:h-10 w-auto select-none"}),H.jsxs("div",{className:"hidden sm:flex items-center gap-3",children:[H.jsx("a",{href:"https://www.facebook.com/jd.geotrack",target:"_blank",rel:"noreferrer",className:b,children:H.jsx(iy,{})}),H.jsx("a",{href:"https://www.instagram.com/jdgeotrack",target:"_blank",rel:"noreferrer",className:b,children:H.jsx(oy,{})}),H.jsx("a",{href:"https://wa.me/56954025867",target:"_blank",rel:"noreferrer",className:b,children:H.jsx(fy,{})}),H.jsx("a",{href:"https://www.linkedin.com/in/rodrigo-lagos-fernandez-403a33173/",target:"_blank",rel:"noreferrer",className:b,children:H.jsx(cy,{})})]})]}),H.jsx("ul",{className:`\r
               hidden md:flex items-center\r
               gap-5 lg:gap-7\r
               text-[0.55rem] lg:text-[0.62rem]\r
@@ -103,14 +103,14 @@ Please change the parent <Route path="${G}"> to <Route path="${G==="/"?"*":`${G}
                           hover:border-[#24C6FF]\r
                           hover:shadow-[0_0_20px_rgba(36,198,255,0.6)]\r
                           transition\r
-                        `,children:[H.jsx("img",{src:"/images/logo-knox.png",alt:"Knox GPS",className:"h-8 w-auto object-contain"}),H.jsx("span",{className:"text-white text-xs font-medium tracking-wide text-center",children:"Knox GPS"})]}),H.jsxs("a",{href:"https://hosting.wialon.us/?lang=es",target:"_blank",rel:"noreferrer",className:`\r
+                        `,children:[H.jsx("img",{src:"images/logo-knox.png",alt:"Knox GPS",className:"h-8 w-auto object-contain"}),H.jsx("span",{className:"text-white text-xs font-medium tracking-wide text-center",children:"Knox GPS"})]}),H.jsxs("a",{href:"https://hosting.wialon.us/?lang=es",target:"_blank",rel:"noreferrer",className:`\r
                           flex flex-col items-center justify-center gap-2\r
                           bg-transparent border border-slate-700\r
                           rounded-lg px-3 py-3\r
                           hover:border-[#24C6FF]\r
                           hover:shadow-[0_0_20px_rgba(36,198,255,0.6)]\r
                           transition\r
-                        `,children:[H.jsx("img",{src:"/images/logo-wialon.png",alt:"Wialon Hosting",className:"h-8 w-auto object-contain"}),H.jsx("span",{className:"text-white text-xs font-medium tracking-wide text-center",children:"Wialon Hosting"})]})]})]},g.to))}),H.jsx("button",{className:`\r
+                        `,children:[H.jsx("img",{src:"images/logo-wialon.png",alt:"Wialon Hosting",className:"h-8 w-auto object-contain"}),H.jsx("span",{className:"text-white text-xs font-medium tracking-wide text-center",children:"Wialon Hosting"})]})]})]},g.to))}),H.jsx("button",{className:`\r
               md:hidden inline-flex items-center justify-center \r
               p-2 \r
               rounded-md hover:bg-white/10 focus:outline-none \r
@@ -430,7 +430,7 @@ Please change the parent <Route path="${G}"> to <Route path="${G==="/"?"*":`${G}
                 hover:border-[#24C6FF]\r
                 hover:shadow-[0_0_30px_rgba(36,198,255,0.7)]\r
                 hover:-translate-y-2\r
-              `,children:H.jsx("img",{src:"/images/logo-knox.png",alt:"Logo Knox",className:"h-full w-auto object-contain"})}),H.jsx("div",{className:`\r
+              `,children:H.jsx("img",{src:"images/logo-knox.png",alt:"Logo Knox",className:"h-full w-auto object-contain"})}),H.jsx("div",{className:`\r
                 border border-slate-700\r
                 rounded-2xl\r
                 px-10 py-8\r
@@ -442,7 +442,7 @@ Please change the parent <Route path="${G}"> to <Route path="${G==="/"?"*":`${G}
                 hover:border-[#24C6FF]\r
                 hover:shadow-[0_0_30px_rgba(36,198,255,0.7)]\r
                 hover:-translate-y-2\r
-              `,children:H.jsx("img",{src:"/images/logo-wialon.png",alt:"Logo Wialon",className:"h-full w-auto object-contain"})})]})})]})})}function gb(){const r=new Date().getFullYear();return H.jsx("footer",{className:"bg-transparent",children:H.jsxs("div",{className:`\r
+              `,children:H.jsx("img",{src:"images/logo-wialon.png",alt:"Logo Wialon",className:"h-full w-auto object-contain"})})]})})]})})}function gb(){const r=new Date().getFullYear();return H.jsx("footer",{className:"bg-transparent",children:H.jsxs("div",{className:`\r
           max-w-6xl mx-auto px-4 py-5\r
           flex flex-col gap-4\r
           sm:flex-row sm:items-center sm:justify-between\r
