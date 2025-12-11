@@ -283,7 +283,7 @@ Please change the parent <Route path="${G}"> to <Route path="${G==="/"?"*":`${G}
               rounded-full\r
               blur-3xl opacity-40\r
               bg-[#24C6FF]\r
-            `}),H.jsx("img",{src:"/images/logo_negro.png",alt:"JD GeoTrack",className:`\r
+            `}),H.jsx("img",{src:"images/logo_negro.png",alt:"JD GeoTrack",className:`\r
               relative\r
               w-52 lg:w-64\r
               drop-shadow-[0_0_20px_rgba(36,198,255,0.50)]\r
