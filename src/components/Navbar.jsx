@@ -71,7 +71,7 @@ export default function Navbar() {
           {/* Logo + Redes al lado */}
           <div className="flex items-center gap-4">
             <img
-              src="/images/logo_fondos_oscuros.png"
+              src="images/logo_fondos_oscuros.png"
               alt="JYD Geotrack"
               className="h-8 lg:h-10 w-auto select-none"
             />
@@ -187,7 +187,7 @@ export default function Navbar() {
                         "
                       >
                         <img
-                          src="/images/logo-knox.png"
+                          src="images/logo-knox.png"
                           alt="Knox GPS"
                           className="h-8 w-auto object-contain"
                         />
@@ -211,7 +211,7 @@ export default function Navbar() {
                         "
                       >
                         <img
-                          src="/images/logo-wialon.png"
+                          src="images/logo-wialon.png"
                           alt="Wialon Hosting"
                           className="h-8 w-auto object-contain"
                         />

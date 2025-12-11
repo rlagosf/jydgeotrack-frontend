@@ -207,7 +207,7 @@ function Contact() {
               "
             >
               <img
-                src="/images/logo-knox.png"
+                src="images/logo-knox.png"
                 alt="Logo Knox"
                 className="h-full w-auto object-contain"
               />
@@ -230,7 +230,7 @@ function Contact() {
               "
             >
               <img
-                src="/images/logo-wialon.png"
+                src="images/logo-wialon.png"
                 alt="Logo Wialon"
                 className="h-full w-auto object-contain"
               />
