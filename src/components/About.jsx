@@ -34,7 +34,7 @@ const About = () => {
           />
 
           <img
-            src="/images/logo_negro.png"
+            src="images/logo_negro.png"
             alt="JD GeoTrack"
             className="
               relative
