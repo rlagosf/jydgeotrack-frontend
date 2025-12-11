@@ -1,24 +1,20 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import Home from "./components/Home";
-import Services from "./components/Services";
-import Contact from "./components/Contact";
-import About from "./components/About";
 
+// Router minimalista para landing page
 export const router = createBrowserRouter(
   [
     {
       path: "/",
       element: <App />,
-      children: [
-        { index: true, element: <Home /> },            // Ruta "/"
-        { path: "servicios", element: <Services /> },
-        { path: "contacto", element: <Contact /> },
-        { path: "nosotros", element: <About /> },
-      ],
+    },
+    // Wildcard: cualquier otra ruta también muestra la landing
+    {
+      path: "*",
+      element: <App />,
     },
   ],
   {
-    basename: "/jydgeotrack-frontend", // 👈 ESTE ES EL CAMBIO CLAVE
+    basename: "/jydgeotrack-frontend", // 👈 clave para GitHub Pages
   }
 );
