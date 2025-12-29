@@ -37,6 +37,15 @@ function Contact() {
     aceptaContacto: false,
   });
 
+  // =========================
+  // Helpers para nombres
+  // =========================
+  const pick = (arr, id, key = "nombre") => {
+    if (!id) return null;
+    const it = arr.find((x) => Number(x.id) === Number(id));
+    return it ? it[key] : null;
+  };
+
   // ---------- Cargar catálogos base ----------
   useEffect(() => {
     const cargarCatalogos = async () => {
@@ -124,7 +133,6 @@ function Contact() {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    // limpia mensajes al editar
     setErrorMsg("");
     setOkMsg("");
 
@@ -141,11 +149,8 @@ function Contact() {
     if (!form.tipoClienteId) return "Selecciona un tipo de cliente.";
     if (!form.cantidadVehiculos || Number(form.cantidadVehiculos) < 1)
       return "La cantidad de vehículos debe ser 1 o más.";
-
-    // regla clave: debe aceptar contacto
     if (!form.aceptaContacto)
       return "Debes aceptar ser contactado para enviar el formulario.";
-
     return "";
   };
 
@@ -162,7 +167,18 @@ function Contact() {
 
     setEnviando(true);
 
-    // payload EXACTO a lo que espera backend/schema/DB
+    // ===== nombres (para el correo) =====
+    const region_nombre = pick(regiones, form.regionId, "nombre");
+    const provincia_nombre = pick(provincias, form.provinciaId, "nombre");
+    const comuna_nombre = pick(comunas, form.comunaId, "nombre");
+
+    const tipo_cliente_nombre = pick(tiposCliente, form.tipoClienteId, "descripcion");
+    const tipo_vehiculo_nombre = pick(tiposVehiculo, form.tipoVehiculoId, "descripcion");
+    const objetivo_nombre = pick(objetivos, form.objetivoId, "descripcion");
+    const usa_gps_nombre = pick(usaGpsOpciones, form.usaGpsId, "descripcion");
+    const plazo_nombre = pick(plazos, form.plazoId, "descripcion");
+
+    // payload: DB + nombres humanos para email
     const payload = {
       nombre_razon_social: form.nombre.trim(),
       correo: form.correo.trim(),
@@ -172,6 +188,11 @@ function Contact() {
       provincia_id: form.provinciaId ? Number(form.provinciaId) : null,
       comuna_id: form.comunaId ? Number(form.comunaId) : null,
 
+      // 👇 NUEVO: nombres “humanos”
+      region_nombre,
+      provincia_nombre,
+      comuna_nombre,
+
       tipo_cliente_id: Number(form.tipoClienteId),
       cantidad_vehiculos: Number(form.cantidadVehiculos),
 
@@ -180,18 +201,22 @@ function Contact() {
       usa_gps_id: form.usaGpsId ? Number(form.usaGpsId) : null,
       plazo_implementacion_id: form.plazoId ? Number(form.plazoId) : null,
 
+      // 👇 NUEVO: nombres negocio
+      tipo_cliente_nombre,
+      tipo_vehiculo_nombre,
+      objetivo_nombre,
+      usa_gps_nombre,
+      plazo_nombre,
+
       detalle_requerimiento: form.detalle?.trim() || null,
 
-      // backend/schema exige true
       acepta_contacto: true,
     };
 
     try {
       const res = await contactoService.enviarFormulario(payload);
-
       setOkMsg(res?.message || "✅ Solicitud recibida. Te contactaremos pronto.");
 
-      // reset
       setForm({
         nombre: "",
         correo: "",
@@ -231,7 +256,6 @@ function Contact() {
             Cuéntanos cómo es tu flota y qué necesitas controlar. Te responderemos con una propuesta ajustada a tu operación.
           </p>
 
-          {/* Mensajes */}
           {errorMsg ? (
             <div className="mb-5 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
               {errorMsg}
@@ -245,7 +269,6 @@ function Contact() {
           ) : null}
 
           <form className="grid md:grid-cols-2 gap-5 text-sm" onSubmit={handleSubmit}>
-            {/* Nombre */}
             <input
               type="text"
               name="nombre"
@@ -255,7 +278,6 @@ function Contact() {
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             />
 
-            {/* Correo */}
             <input
               type="email"
               name="correo"
@@ -265,7 +287,6 @@ function Contact() {
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             />
 
-            {/* Teléfono */}
             <input
               type="text"
               name="telefono"
@@ -275,24 +296,18 @@ function Contact() {
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             />
 
-            {/* Región */}
             <select
               name="regionId"
               value={form.regionId}
               onChange={handleChange}
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             >
-              <option value="" disabled>
-                Región
-              </option>
+              <option value="" disabled>Región</option>
               {regiones.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.nombre}
-                </option>
+                <option key={r.id} value={r.id}>{r.nombre}</option>
               ))}
             </select>
 
-            {/* Provincia */}
             <select
               name="provinciaId"
               value={form.provinciaId}
@@ -300,17 +315,12 @@ function Contact() {
               disabled={!form.regionId || provincias.length === 0}
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <option value="" disabled>
-                Provincia
-              </option>
+              <option value="" disabled>Provincia</option>
               {provincias.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.nombre}
-                </option>
+                <option key={p.id} value={p.id}>{p.nombre}</option>
               ))}
             </select>
 
-            {/* Comuna */}
             <select
               name="comunaId"
               value={form.comunaId}
@@ -318,34 +328,24 @@ function Contact() {
               disabled={!form.provinciaId || comunas.length === 0}
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <option value="" disabled>
-                Comuna
-              </option>
+              <option value="" disabled>Comuna</option>
               {comunas.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.nombre}
-                </option>
+                <option key={c.id} value={c.id}>{c.nombre}</option>
               ))}
             </select>
 
-            {/* Tipo de cliente */}
             <select
               name="tipoClienteId"
               value={form.tipoClienteId}
               onChange={handleChange}
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             >
-              <option value="" disabled>
-                Tipo de cliente
-              </option>
+              <option value="" disabled>Tipo de cliente</option>
               {tiposCliente.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.descripcion}
-                </option>
+                <option key={t.id} value={t.id}>{t.descripcion}</option>
               ))}
             </select>
 
-            {/* Cantidad vehículos */}
             <input
               type="number"
               name="cantidadVehiculos"
@@ -355,75 +355,54 @@ function Contact() {
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
 
-            {/* Tipo de vehículos */}
             <select
               name="tipoVehiculoId"
               value={form.tipoVehiculoId}
               onChange={handleChange}
               className="md:col-span-2 bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             >
-              <option value="" disabled>
-                Tipo de vehículos
-              </option>
+              <option value="" disabled>Tipo de vehículos</option>
               {tiposVehiculo.map((tv) => (
-                <option key={tv.id} value={tv.id}>
-                  {tv.descripcion}
-                </option>
+                <option key={tv.id} value={tv.id}>{tv.descripcion}</option>
               ))}
             </select>
 
-            {/* Objetivo principal */}
             <select
               name="objetivoId"
               value={form.objetivoId}
               onChange={handleChange}
               className="md:col-span-2 bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             >
-              <option value="" disabled>
-                Objetivo principal del rastreo
-              </option>
+              <option value="" disabled>Objetivo principal del rastreo</option>
               {objetivos.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.descripcion}
-                </option>
+                <option key={o.id} value={o.id}>{o.descripcion}</option>
               ))}
             </select>
 
-            {/* ¿Usa GPS? */}
             <select
               name="usaGpsId"
               value={form.usaGpsId}
               onChange={handleChange}
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             >
-              <option value="" disabled>
-                ¿Actualmente usas GPS?
-              </option>
+              <option value="" disabled>¿Actualmente usas GPS?</option>
               {usaGpsOpciones.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.descripcion}
-                </option>
+                <option key={g.id} value={g.id}>{g.descripcion}</option>
               ))}
             </select>
 
-            {/* Plazo implementación */}
             <select
               name="plazoId"
               value={form.plazoId}
               onChange={handleChange}
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             >
-              <option value="" disabled>
-                ¿Para cuándo necesitas implementar?
-              </option>
+              <option value="" disabled>¿Para cuándo necesitas implementar?</option>
               {plazos.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.descripcion}
-                </option>
+                <option key={p.id} value={p.id}>{p.descripcion}</option>
               ))}
             </select>
 
-            {/* Detalle */}
             <textarea
               name="detalle"
               value={form.detalle}
@@ -432,7 +411,6 @@ function Contact() {
               className="md:col-span-2 bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 placeholder:text-slate-500 min-h-[120px] resize-none focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition"
             />
 
-            {/* Consentimiento */}
             <label className="md:col-span-2 flex items-start gap-2 text-xs sm:text-[0.8rem] text-white/70 cursor-pointer">
               <input
                 type="checkbox"
@@ -444,7 +422,6 @@ function Contact() {
               <span>Acepto ser contactado por JD GeoTrack para recibir una cotización.</span>
             </label>
 
-            {/* Botón enviar */}
             <button
               type="submit"
               disabled={enviando}
