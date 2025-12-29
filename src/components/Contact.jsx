@@ -5,7 +5,7 @@ import { contactoService } from "../services/contacto";
 function Contact() {
   // ---- Catálogos ----
   const [regiones, setRegiones] = useState([]);
-  const [ciudades, setCiudades] = useState([]);
+  const [provincias, setProvincias] = useState([]);
   const [comunas, setComunas] = useState([]);
 
   const [tiposCliente, setTiposCliente] = useState([]);
@@ -25,7 +25,7 @@ function Contact() {
     correo: "",
     telefono: "",
     regionId: "",
-    ciudadId: "",
+    provinciaId: "",
     comunaId: "",
     tipoClienteId: "",
     cantidadVehiculos: "",
@@ -72,40 +72,42 @@ function Contact() {
     cargarCatalogos();
   }, []);
 
-  // ---------- Región → cargar ciudades ----------
+  // ---------- Región → cargar provincias ----------
   useEffect(() => {
-    const cargarCiudades = async () => {
+    const cargarProvincias = async () => {
       if (!form.regionId) {
-        setCiudades([]);
+        setProvincias([]);
         setComunas([]);
-        setForm((prev) => ({ ...prev, ciudadId: "", comunaId: "" }));
+        setForm((prev) => ({ ...prev, provinciaId: "", comunaId: "" }));
         return;
       }
+
       try {
-        const res = await catalogosService.getCiudades(form.regionId);
-        setCiudades(res.data || []);
+        const res = await catalogosService.getProvincias(form.regionId);
+        setProvincias(res.data || []);
         setComunas([]);
-        setForm((prev) => ({ ...prev, ciudadId: "", comunaId: "" }));
+        setForm((prev) => ({ ...prev, provinciaId: "", comunaId: "" }));
       } catch (err) {
-        console.error("Error cargando ciudades:", err);
-        setErrorMsg("No se pudieron cargar las ciudades.");
+        console.error("Error cargando provincias:", err);
+        setErrorMsg("No se pudieron cargar las provincias.");
       }
     };
 
-    cargarCiudades();
+    cargarProvincias();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.regionId]);
 
-  // ---------- Ciudad → cargar comunas ----------
+  // ---------- Provincia → cargar comunas ----------
   useEffect(() => {
     const cargarComunas = async () => {
-      if (!form.ciudadId) {
+      if (!form.provinciaId) {
         setComunas([]);
         setForm((prev) => ({ ...prev, comunaId: "" }));
         return;
       }
+
       try {
-        const res = await catalogosService.getComunas(form.ciudadId);
+        const res = await catalogosService.getComunas(form.provinciaId);
         setComunas(res.data || []);
         setForm((prev) => ({ ...prev, comunaId: "" }));
       } catch (err) {
@@ -116,7 +118,7 @@ function Contact() {
 
     cargarComunas();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.ciudadId]);
+  }, [form.provinciaId]);
 
   // ---------- Handlers ----------
   const handleChange = (e) => {
@@ -167,7 +169,7 @@ function Contact() {
       telefono: form.telefono.trim(),
 
       region_id: form.regionId ? Number(form.regionId) : null,
-      ciudad_id: form.ciudadId ? Number(form.ciudadId) : null,
+      provincia_id: form.provinciaId ? Number(form.provinciaId) : null,
       comuna_id: form.comunaId ? Number(form.comunaId) : null,
 
       tipo_cliente_id: Number(form.tipoClienteId),
@@ -195,7 +197,7 @@ function Contact() {
         correo: "",
         telefono: "",
         regionId: "",
-        ciudadId: "",
+        provinciaId: "",
         comunaId: "",
         tipoClienteId: "",
         cantidadVehiculos: "",
@@ -206,10 +208,9 @@ function Contact() {
         detalle: "",
         aceptaContacto: false,
       });
-      setCiudades([]);
+      setProvincias([]);
       setComunas([]);
     } catch (err2) {
-      // err2 viene desde contactoService como { ok:false, error:"..." }
       const msg = err2?.error || "❌ Ocurrió un error al enviar el formulario.";
       setErrorMsg(msg);
     } finally {
@@ -291,20 +292,20 @@ function Contact() {
               ))}
             </select>
 
-            {/* Ciudad */}
+            {/* Provincia */}
             <select
-              name="ciudadId"
-              value={form.ciudadId}
+              name="provinciaId"
+              value={form.provinciaId}
               onChange={handleChange}
-              disabled={!form.regionId || ciudades.length === 0}
+              disabled={!form.regionId || provincias.length === 0}
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <option value="" disabled>
-                Ciudad
+                Provincia
               </option>
-              {ciudades.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.nombre}
+              {provincias.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.nombre}
                 </option>
               ))}
             </select>
@@ -314,7 +315,7 @@ function Contact() {
               name="comunaId"
               value={form.comunaId}
               onChange={handleChange}
-              disabled={!form.ciudadId || comunas.length === 0}
+              disabled={!form.provinciaId || comunas.length === 0}
               className="bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs sm:text-sm focus:outline-none focus:border-[#24C6FF]/70 focus:ring-1 focus:ring-[#24C6FF]/40 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <option value="" disabled>
@@ -458,11 +459,11 @@ function Contact() {
         <div className="w-full flex justify-center lg:justify-end mt-10 lg:mt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 w-full max-w-sm sm:max-w-md lg:max-w-lg">
             <div className="border border-slate-700 rounded-2xl px-10 py-8 flex items-center justify-center shadow-[0_18px_40px_rgba(0,0,0,0.65)] h-56 bg-transparent transition-all duration-300 hover:border-[#24C6FF] hover:shadow-[0_0_30px_rgba(36,198,255,0.7)] hover:-translate-y-2">
-              <img src="images/logo-knox.png" alt="Logo Knox" className="h-full w-auto object-contain" />
+              <img src="/images/logo-knox.png" alt="Logo Knox" className="h-full w-auto object-contain" />
             </div>
 
             <div className="border border-slate-700 rounded-2xl px-10 py-8 flex items-center justify-center shadow-[0_18px_40px_rgba(0,0,0,0.65)] h-56 bg-transparent transition-all duration-300 hover:border-[#24C6FF] hover:shadow-[0_0_30px_rgba(36,198,255,0.7)] hover:-translate-y-2">
-              <img src="images/logo-wialon.png" alt="Logo Wialon" className="h-full w-auto object-contain" />
+              <img src="/images/logo-wialon.png" alt="Logo Wialon" className="h-full w-auto object-contain" />
             </div>
           </div>
         </div>

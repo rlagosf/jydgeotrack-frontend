@@ -8,12 +8,12 @@ export const catalogosService = {
     return api.get("/catalogos/regiones");
   },
 
-  getCiudades(regionId) {
-    return api.get(`/catalogos/ciudades/${regionId}`);
+  getProvincias(regionId) {
+    return api.get(`/catalogos/provincias/${regionId}`);
   },
 
-  getComunas(ciudadId) {
-    return api.get(`/catalogos/comunas/${ciudadId}`);
+  getComunas(provinciaId) {
+    return api.get(`/catalogos/comunas/${provinciaId}`);
   },
 
   // --------------------
