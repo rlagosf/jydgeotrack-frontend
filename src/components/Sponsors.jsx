@@ -1,10 +1,10 @@
 const sponsors = [
-  { src: "/images/avicola_cachagua.png", alt: "Avícola Cachagua", scale: 1.58 },
-  { src: "/images/conaf.png", alt: "CONAF", scale: 1.12 },
-  { src: "/images/jotaqu.png", alt: "Jotaqu", scale: 1.55 },
-  { src: "/images/mansel.png", alt: "Mansel", scale: 1.5 },
-  { src: "/images/qualitylog.png", alt: "Qualitylog", scale: 4.18 },
-  { src: "/images/ramirez_aviacion.png", alt: "Ramírez Aviación", scale: 1.58 },
+  { src: "images/avicola_cachagua.png", alt: "Avícola Cachagua", scale: 1.58 },
+  { src: "images/conaf.png", alt: "CONAF", scale: 1.12 },
+  { src: "images/jotaqu.png", alt: "Jotaqu", scale: 1.55 },
+  { src: "images/mansel.png", alt: "Mansel", scale: 1.5 },
+  { src: "images/qualitylog.png", alt: "Qualitylog", scale: 4.18 },
+  { src: "images/ramirez_aviacion.png", alt: "Ramírez Aviación", scale: 1.58 },
 ];
 
 // Logo “normalizado” + ajuste fino por logo (scale)
