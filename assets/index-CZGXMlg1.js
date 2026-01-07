@@ -352,7 +352,7 @@ Please change the parent <Route path="${Y}"> to <Route path="${Y==="/"?"*":`${Y}
               text-lg\r
               hover:text-white\r
               hover:drop-shadow-[0_0_16px_rgba(36,198,255,0.45)]\r
-            `,children:A.jsx(py,{})})]})]})})}const Ku=[{src:"/images/avicola_cachagua.png",alt:"Avícola Cachagua",scale:1.58},{src:"/images/conaf.png",alt:"CONAF",scale:1.12},{src:"/images/jotaqu.png",alt:"Jotaqu",scale:1.55},{src:"/images/mansel.png",alt:"Mansel",scale:1.5},{src:"/images/qualitylog.png",alt:"Qualitylog",scale:4.18},{src:"/images/ramirez_aviacion.png",alt:"Ramírez Aviación",scale:1.58}];function jv({src:l,alt:r,scale:u=1}){return A.jsx("div",{className:`\r
+            `,children:A.jsx(py,{})})]})]})})}const Ku=[{src:"images/avicola_cachagua.png",alt:"Avícola Cachagua",scale:1.58},{src:"images/conaf.png",alt:"CONAF",scale:1.12},{src:"images/jotaqu.png",alt:"Jotaqu",scale:1.55},{src:"images/mansel.png",alt:"Mansel",scale:1.5},{src:"images/qualitylog.png",alt:"Qualitylog",scale:4.18},{src:"images/ramirez_aviacion.png",alt:"Ramírez Aviación",scale:1.58}];function jv({src:l,alt:r,scale:u=1}){return A.jsx("div",{className:`\r
         flex items-center justify-center flex-none\r
         h-14 w-32 sm:h-16 sm:w-40 md:h-20 md:w-48 lg:h-24 lg:w-56\r
         px-2\r
