@@ -436,11 +436,11 @@ function Contact() {
         <div className="w-full flex justify-center lg:justify-end mt-10 lg:mt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 w-full max-w-sm sm:max-w-md lg:max-w-lg">
             <div className="border border-slate-700 rounded-2xl px-10 py-8 flex items-center justify-center shadow-[0_18px_40px_rgba(0,0,0,0.65)] h-56 bg-transparent transition-all duration-300 hover:border-[#24C6FF] hover:shadow-[0_0_30px_rgba(36,198,255,0.7)] hover:-translate-y-2">
-              <img src="/images/logo-knox.png" alt="Logo Knox" className="h-full w-auto object-contain" />
+              <img src="images/logo-knox.png" alt="Logo Knox" className="h-full w-auto object-contain" />
             </div>
 
             <div className="border border-slate-700 rounded-2xl px-10 py-8 flex items-center justify-center shadow-[0_18px_40px_rgba(0,0,0,0.65)] h-56 bg-transparent transition-all duration-300 hover:border-[#24C6FF] hover:shadow-[0_0_30px_rgba(36,198,255,0.7)] hover:-translate-y-2">
-              <img src="/images/logo-wialon.png" alt="Logo Wialon" className="h-full w-auto object-contain" />
+              <img src="images/logo-wialon.png" alt="Logo Wialon" className="h-full w-auto object-contain" />
             </div>
           </div>
         </div>
