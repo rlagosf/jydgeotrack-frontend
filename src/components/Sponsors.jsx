@@ -50,7 +50,7 @@ function Sponsors() {
           drop-shadow-[0_0_14px_rgba(36,198,255,0.45)]
         "
       >
-        No lo decimos nosotros: estas empresas ya confían en JD GeoTrack
+        NO LO DECIMOS NOSOTROS: ESTAS EMPRESAS YA CONFÍAN EN JD GEOTRACK
       </h3>
 
       {/* Carrusel infinito real (sin cortes) */}

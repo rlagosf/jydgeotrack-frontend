@@ -1,35 +1,50 @@
+// src/services/contacto.js
 import { api } from "./api";
 
-export const contactoService = {
-  async enviarFormulario(data) {
-    try {
-      const { data: res } = await api.post("/contacto", data);
-      return res; // { ok: true, message: ... }
-    } catch (error) {
-      // Si el backend respondió (400/500), aquí viene el payload
-      const backend = error?.response?.data;
+function normalizeError(error) {
+  const backend = error?.response?.data;
 
-      // Si no hay respuesta: timeout, red, CORS, DNS, etc.
-      const fallback = {
-        ok: false,
-        error:
-          error?.code === "ECONNABORTED"
-            ? "La solicitud tardó demasiado (timeout). Intenta nuevamente."
-            : "Error de conexión con el servidor",
-      };
+  // Si el backend manda { ok:false, error:"..." } o { message:"..." }
+  const backendMsg =
+    backend?.error ||
+    backend?.message ||
+    backend?.msg;
 
-      // Log solo en dev para no ensuciar prod
-      if (import.meta.env.DEV) {
-        console.error("Error enviando formulario:", {
+  // Si no hay respuesta: timeout, red, CORS, DNS, etc.
+  const fallbackMsg =
+    error?.code === "ECONNABORTED"
+      ? "La solicitud tardó demasiado (timeout). Intenta nuevamente."
+      : "Error de conexión con el servidor.";
+
+  return {
+    ok: false,
+    error: backendMsg || fallbackMsg,
+    // útil para debug en DEV
+    _debug: import.meta.env.DEV
+      ? {
           status: error?.response?.status,
           code: error?.code,
           message: error?.message,
           backend,
-        });
+        }
+      : undefined,
+  };
+}
+
+export const contactoService = {
+  async enviarFormulario(data) {
+    try {
+      const res = await api.post("/contacto", data);
+      return res.data; // { ok:true, message:"..." }
+    } catch (error) {
+      const normalized = normalizeError(error);
+
+      if (import.meta.env.DEV) {
+        console.error("Error enviando formulario:", normalized._debug);
       }
 
-      // Error controlado hacia el componente
-      throw backend || fallback;
+      // tiramos un objeto estable para el componente
+      throw normalized;
     }
   },
 };

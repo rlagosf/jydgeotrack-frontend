@@ -27,7 +27,7 @@ function Footer() {
               drop-shadow-[0_0_6px_rgba(0,0,0,0.35)]
             "
           >
-            © {year} JD GeoTrack. Todos los derechos reservados.
+            © {year} JyD GeoTrack. Todos los derechos reservados.
           </span>
 
           <span 
