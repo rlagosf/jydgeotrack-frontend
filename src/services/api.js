@@ -1,22 +1,22 @@
 import axios from "axios";
 
-const rawBaseURL = import.meta.env.VITE_API_URL;
-
-// Normaliza: quita espacios, asegura sin "/" final
 const normalize = (url) => (url ? url.trim().replace(/\/+$/, "") : "");
 
-// Asegura que termine en /api (si el backend está con prefix /api)
-const ensureApiSuffix = (url) => {
-  if (!url) return "";
-  return url.endsWith("/api") ? url : `${url}/api`;
-};
+// VITE_API_URL debe venir completo (incluyendo /api)
+const envBase = normalize(import.meta.env.VITE_API_URL);
 
-const normalized = normalize(rawBaseURL);
-const baseURL = ensureApiSuffix(normalized) || "http://localhost:4001/api";
+// Fallback solo para dev local
+const baseURL = envBase || "http://localhost:4001/api";
 
-// Logs solo en dev
+// Aviso en dev si alguien configuró mal (pero NO lo autocorrige)
 if (import.meta.env.DEV) {
-  console.log("VITE_API_URL =>", rawBaseURL, "| baseURL usado =>", baseURL);
+  console.log("VITE_API_URL =>", import.meta.env.VITE_API_URL, "| baseURL usado =>", baseURL);
+
+  if (envBase && !envBase.endsWith("/api")) {
+    console.warn(
+      "[api] VITE_API_URL no termina en /api. Recomendado: setearlo como .../api en el .env"
+    );
+  }
 }
 
 export const api = axios.create({
@@ -24,12 +24,11 @@ export const api = axios.create({
   timeout: Number(import.meta.env.VITE_API_TIMEOUT ?? 15000),
 });
 
-// ---- Interceptor: errores más claros ----
 api.interceptors.response.use(
   (res) => res,
   (error) => {
     const status = error?.response?.status;
-    const url = error?.config?.baseURL + (error?.config?.url ?? "");
+    const url = (error?.config?.baseURL ?? "") + (error?.config?.url ?? "");
     const msg =
       error?.response?.data?.error ||
       error?.response?.data?.message ||

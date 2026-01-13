@@ -1,41 +1,59 @@
 import { api } from "./api";
 
+const mustId = (v, name) => {
+  const n = Number(v);
+  if (!Number.isFinite(n) || n <= 0) {
+    throw new Error(`[catalogosService] ${name} inválido: ${v}`);
+  }
+  return n;
+};
+
 export const catalogosService = {
   // --------------------
   // Geográficos
   // --------------------
-  getRegiones() {
-    return api.get("/catalogos/regiones");
+  async getRegiones() {
+    const { data } = await api.get("/catalogos/regiones");
+    return data;
   },
 
-  getProvincias(regionId) {
-    return api.get(`/catalogos/provincias/${regionId}`);
+  async getProvincias(regionId) {
+    const id = mustId(regionId, "regionId");
+    const { data } = await api.get(`/catalogos/provincias/${id}`);
+    return data;
   },
 
-  getComunas(provinciaId) {
-    return api.get(`/catalogos/comunas/${provinciaId}`);
+  async getComunas(provinciaId) {
+    const id = mustId(provinciaId, "provinciaId");
+    const { data } = await api.get(`/catalogos/comunas/${id}`);
+    return data;
   },
 
   // --------------------
   // Negocio
   // --------------------
-  getTipoCliente() {
-    return api.get("/catalogos/tipo-cliente");
+  async getTipoCliente() {
+    const { data } = await api.get("/catalogos/tipo-cliente");
+    return data;
   },
 
-  getTipoVehiculo() {
-    return api.get("/catalogos/tipo-vehiculo");
+  async getTipoVehiculo() {
+    const { data } = await api.get("/catalogos/tipo-vehiculo");
+    return data;
   },
 
-  getObjetivoRastreo() {
-    return api.get("/catalogos/objetivo-rastreo");
+  async getObjetivoRastreo() {
+    const { data } = await api.get("/catalogos/objetivo-rastreo");
+    return data;
   },
 
-  getGpsUso() {
-    return api.get("/catalogos/usa-gps");
+  async getGpsUso() {
+    const { data } = await api.get("/catalogos/usa-gps");
+    return data;
   },
 
-  getPlazo() {
-    return api.get("/catalogos/plazo-implementacion");
+  async getPlazo() {
+    const { data } = await api.get("/catalogos/plazo-implementacion");
+    return data;
   },
 };

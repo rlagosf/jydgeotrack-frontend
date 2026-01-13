@@ -1,14 +1,27 @@
 // src/services/contacto.js
 import { api } from "./api";
 
+function toMsg(v) {
+  if (!v) return "";
+  if (typeof v === "string") return v;
+  if (Array.isArray(v)) return v.map(toMsg).filter(Boolean).join(" | ");
+  if (typeof v === "object") {
+    // casos comunes: { message }, { error }, { issues:[...] }
+    return v.message || v.error || JSON.stringify(v);
+  }
+  return String(v);
+}
+
 function normalizeError(error) {
   const backend = error?.response?.data;
 
-  // Si el backend manda { ok:false, error:"..." } o { message:"..." }
+  // Si el backend manda { ok:false, error:"..." } o { message:"..." } o similares
   const backendMsg =
     backend?.error ||
     backend?.message ||
-    backend?.msg;
+    backend?.msg ||
+    backend?.errors ||
+    backend?.issues;
 
   // Si no hay respuesta: timeout, red, CORS, DNS, etc.
   const fallbackMsg =
@@ -18,14 +31,15 @@ function normalizeError(error) {
 
   return {
     ok: false,
-    error: backendMsg || fallbackMsg,
-    // útil para debug en DEV
+    error: toMsg(backendMsg) || fallbackMsg,
     _debug: import.meta.env.DEV
       ? {
           status: error?.response?.status,
           code: error?.code,
           message: error?.message,
           backend,
+          url: (error?.config?.baseURL ?? "") + (error?.config?.url ?? ""),
+          method: error?.config?.method,
         }
       : undefined,
   };
