@@ -1,59 +1,53 @@
+// src/services/catalogos.js
 import { api } from "./api";
 
-const mustId = (v, name) => {
-  const n = Number(v);
-  if (!Number.isFinite(n) || n <= 0) {
-    throw new Error(`[catalogosService] ${name} inválido: ${v}`);
-  }
-  return n;
-};
+const toNombre = (row) => ({
+  id: row.id,
+  nombre: row.nombre ?? row.descripcion ?? "",
+});
+
+const mapSafe = (data) => (Array.isArray(data) ? data.map(toNombre) : []);
 
 export const catalogosService = {
-  // --------------------
-  // Geográficos
-  // --------------------
   async getRegiones() {
     const { data } = await api.get("/catalogos/regiones");
-    return data;
+    return mapSafe(data);
   },
 
   async getProvincias(regionId) {
-    const id = mustId(regionId, "regionId");
-    const { data } = await api.get(`/catalogos/provincias/${id}`);
-    return data;
+    if (!regionId) return [];
+    const { data } = await api.get(`/catalogos/provincias/${regionId}`);
+    return mapSafe(data);
   },
 
   async getComunas(provinciaId) {
-    const id = mustId(provinciaId, "provinciaId");
-    const { data } = await api.get(`/catalogos/comunas/${id}`);
-    return data;
+    if (!provinciaId) return [];
+    const { data } = await api.get(`/catalogos/comunas/${provinciaId}`);
+    return mapSafe(data);
   },
 
-  // --------------------
-  // Negocio
-  // --------------------
   async getTipoCliente() {
     const { data } = await api.get("/catalogos/tipo-cliente");
-    return data;
+    return mapSafe(data);
   },
 
   async getTipoVehiculo() {
     const { data } = await api.get("/catalogos/tipo-vehiculo");
-    return data;
+    return mapSafe(data);
   },
 
   async getObjetivoRastreo() {
     const { data } = await api.get("/catalogos/objetivo-rastreo");
-    return data;
+    return mapSafe(data);
   },
 
   async getGpsUso() {
     const { data } = await api.get("/catalogos/usa-gps");
-    return data;
+    return mapSafe(data);
   },
 
   async getPlazo() {
     const { data } = await api.get("/catalogos/plazo-implementacion");
-    return data;
+    return mapSafe(data);
   },
 };

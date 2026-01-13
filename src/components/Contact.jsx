@@ -3,7 +3,7 @@ import { catalogosService } from "../services/catalogos";
 import { contactoService } from "../services/contacto";
 
 function Contact() {
-  // ---- Catálogos ----
+  // ---- Catálogos (todos vienen normalizados como {id, nombre}) ----
   const [regiones, setRegiones] = useState([]);
   const [provincias, setProvincias] = useState([]);
   const [comunas, setComunas] = useState([]);
@@ -38,12 +38,12 @@ function Contact() {
   });
 
   // =========================
-  // Helpers para nombres
+  // Helper para obtener nombre “humano” desde catálogos normalizados
   // =========================
-  const pick = (arr, id, key = "nombre") => {
+  const pickNombre = (arr, id) => {
     if (!id) return null;
     const it = arr.find((x) => Number(x.id) === Number(id));
-    return it ? it[key] : null;
+    return it?.nombre ?? null;
   };
 
   // ---------- Cargar catálogos base ----------
@@ -51,12 +51,12 @@ function Contact() {
     const cargarCatalogos = async () => {
       try {
         const [
-          resRegiones,
-          resTipoCliente,
-          resTipoVehiculo,
-          resObjetivo,
-          resUsaGps,
-          resPlazo,
+          regionesData,
+          tipoClienteData,
+          tipoVehiculoData,
+          objetivoData,
+          usaGpsData,
+          plazoData,
         ] = await Promise.all([
           catalogosService.getRegiones(),
           catalogosService.getTipoCliente(),
@@ -66,12 +66,12 @@ function Contact() {
           catalogosService.getPlazo(),
         ]);
 
-        setRegiones(resRegiones.data || []);
-        setTiposCliente(resTipoCliente.data || []);
-        setTiposVehiculo(resTipoVehiculo.data || []);
-        setObjetivos(resObjetivo.data || []);
-        setUsaGpsOpciones(resUsaGps.data || []);
-        setPlazos(resPlazo.data || []);
+        setRegiones(regionesData || []);
+        setTiposCliente(tipoClienteData || []);
+        setTiposVehiculo(tipoVehiculoData || []);
+        setObjetivos(objetivoData || []);
+        setUsaGpsOpciones(usaGpsData || []);
+        setPlazos(plazoData || []);
       } catch (err) {
         console.error("Error cargando catálogos:", err);
         setErrorMsg("No se pudieron cargar los catálogos. Intenta nuevamente.");
@@ -92,8 +92,8 @@ function Contact() {
       }
 
       try {
-        const res = await catalogosService.getProvincias(form.regionId);
-        setProvincias(res.data || []);
+        const data = await catalogosService.getProvincias(form.regionId);
+        setProvincias(data || []);
         setComunas([]);
         setForm((prev) => ({ ...prev, provinciaId: "", comunaId: "" }));
       } catch (err) {
@@ -116,8 +116,8 @@ function Contact() {
       }
 
       try {
-        const res = await catalogosService.getComunas(form.provinciaId);
-        setComunas(res.data || []);
+        const data = await catalogosService.getComunas(form.provinciaId);
+        setComunas(data || []);
         setForm((prev) => ({ ...prev, comunaId: "" }));
       } catch (err) {
         console.error("Error cargando comunas:", err);
@@ -168,15 +168,15 @@ function Contact() {
     setEnviando(true);
 
     // ===== nombres (para el correo) =====
-    const region_nombre = pick(regiones, form.regionId, "nombre");
-    const provincia_nombre = pick(provincias, form.provinciaId, "nombre");
-    const comuna_nombre = pick(comunas, form.comunaId, "nombre");
+    const region_nombre = pickNombre(regiones, form.regionId);
+    const provincia_nombre = pickNombre(provincias, form.provinciaId);
+    const comuna_nombre = pickNombre(comunas, form.comunaId);
 
-    const tipo_cliente_nombre = pick(tiposCliente, form.tipoClienteId, "descripcion");
-    const tipo_vehiculo_nombre = pick(tiposVehiculo, form.tipoVehiculoId, "descripcion");
-    const objetivo_nombre = pick(objetivos, form.objetivoId, "descripcion");
-    const usa_gps_nombre = pick(usaGpsOpciones, form.usaGpsId, "descripcion");
-    const plazo_nombre = pick(plazos, form.plazoId, "descripcion");
+    const tipo_cliente_nombre = pickNombre(tiposCliente, form.tipoClienteId);
+    const tipo_vehiculo_nombre = pickNombre(tiposVehiculo, form.tipoVehiculoId);
+    const objetivo_nombre = pickNombre(objetivos, form.objetivoId);
+    const usa_gps_nombre = pickNombre(usaGpsOpciones, form.usaGpsId);
+    const plazo_nombre = pickNombre(plazos, form.plazoId);
 
     // payload: DB + nombres humanos para email
     const payload = {
@@ -188,7 +188,7 @@ function Contact() {
       provincia_id: form.provinciaId ? Number(form.provinciaId) : null,
       comuna_id: form.comunaId ? Number(form.comunaId) : null,
 
-      // 👇 NUEVO: nombres “humanos”
+      // nombres “humanos”
       region_nombre,
       provincia_nombre,
       comuna_nombre,
@@ -201,7 +201,7 @@ function Contact() {
       usa_gps_id: form.usaGpsId ? Number(form.usaGpsId) : null,
       plazo_implementacion_id: form.plazoId ? Number(form.plazoId) : null,
 
-      // 👇 NUEVO: nombres negocio
+      // nombres negocio
       tipo_cliente_nombre,
       tipo_vehiculo_nombre,
       objetivo_nombre,
@@ -210,6 +210,7 @@ function Contact() {
 
       detalle_requerimiento: form.detalle?.trim() || null,
 
+      // el backend valida esto
       acepta_contacto: true,
     };
 
@@ -233,6 +234,7 @@ function Contact() {
         detalle: "",
         aceptaContacto: false,
       });
+
       setProvincias([]);
       setComunas([]);
     } catch (err2) {
@@ -342,7 +344,7 @@ function Contact() {
             >
               <option value="" disabled>Tipo de cliente</option>
               {tiposCliente.map((t) => (
-                <option key={t.id} value={t.id}>{t.descripcion}</option>
+                <option key={t.id} value={t.id}>{t.nombre}</option>
               ))}
             </select>
 
@@ -363,7 +365,7 @@ function Contact() {
             >
               <option value="" disabled>Tipo de vehículos</option>
               {tiposVehiculo.map((tv) => (
-                <option key={tv.id} value={tv.id}>{tv.descripcion}</option>
+                <option key={tv.id} value={tv.id}>{tv.nombre}</option>
               ))}
             </select>
 
@@ -375,7 +377,7 @@ function Contact() {
             >
               <option value="" disabled>Objetivo principal del rastreo</option>
               {objetivos.map((o) => (
-                <option key={o.id} value={o.id}>{o.descripcion}</option>
+                <option key={o.id} value={o.id}>{o.nombre}</option>
               ))}
             </select>
 
@@ -387,7 +389,7 @@ function Contact() {
             >
               <option value="" disabled>¿Actualmente usas GPS?</option>
               {usaGpsOpciones.map((g) => (
-                <option key={g.id} value={g.id}>{g.descripcion}</option>
+                <option key={g.id} value={g.id}>{g.nombre}</option>
               ))}
             </select>
 
@@ -399,7 +401,7 @@ function Contact() {
             >
               <option value="" disabled>¿Para cuándo necesitas implementar?</option>
               {plazos.map((p) => (
-                <option key={p.id} value={p.id}>{p.descripcion}</option>
+                <option key={p.id} value={p.id}>{p.nombre}</option>
               ))}
             </select>
 
